@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>Credentials</h1>
+    <p>Below are your temporary credentials for {{ accountname }}.
+    <a target="_blank" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html">Documentation</a></p>
+    <p>Please <B>do not</B> use these credentials for long-term scripts; they are only good for 12 hours from
+    time of issue. If you require credentials for scripts for the long term or that need to run without MFA,
+    please file a JIRA ticket to SRE with details on the use-case and what resources need to be accessed so we
+    can provision things as appropriate.</p>
+    <pre>{{ creds }}</pre>
+    <h4>If you don't know what this is for - you probably want the "Launch Console" link.</h3>
+{% endblock %}

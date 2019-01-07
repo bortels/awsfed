@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# We assume "fed" is the name of your awsfed server and is defined in your ssh config
+
+rsync -avz --progress fed:~/app/db.sqlite ./
+

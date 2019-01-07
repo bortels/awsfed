@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <h1>Register</h1>
+    <p>This site requires use of Multi-Factor Authentication, aka. MFA. Before you submit this form,
+        please ensure you have access to a reliable MFA client that supports TOTP authentication.
+        We recommend and support use of 1Password for mac or PC, and for mobile devices we suggest
+        Google Authenticator (<a href=https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8>Apple</a> or
+        <a href=https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en>Android</a>) 
+        - but any standards-supporting client should work. </p>
+    {{ wtf.quick_form(form) }}
+    <br>
+    <div class="alert alert-danger" role="alert">Note: The next page will let you set up your MFA device. It shows sensitive information. Make sure nobody can see your screen before pressing the Register button.</div>
+{% endblock %}

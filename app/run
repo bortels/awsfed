@@ -1,0 +1,32 @@
+#!/bin/sh
+
+env=${1:-dev}
+
+port=80
+
+if [ $env = "prod" ]; then
+  port=5001
+fi
+
+if [ $env = "dev" ]; then
+  port=5002
+fi
+
+if [ $port = "80" ]; then
+  echo Unsupported environment $env
+  echo Aborting.
+  exit
+fi
+
+docker kill fed-$env
+docker rm fed-$env
+touch /home/ec2-user/$env/app/db.sqlite
+chown ec2-user /home/ec2-user/$env/app/db.sqlite
+docker run \
+       -dit \
+       -e "ENV=$env" \
+       -p $port:5000 \
+       --restart on-failure \
+       -v /home/ec2-user/$env/app/db.sqlite:/app/db.sqlite \
+       --name fed-$env \
+       fed-$env

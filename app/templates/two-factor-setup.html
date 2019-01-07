@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <h1>Two Factor Authentication Setup</h1>
+    <p>You are almost done! Please start your TOTP client and scan the following QR Code with it:</p>
+    <p><img id="qrcode" src="{{ url_for('qrcode') }}"></p>
+    <p>I'm done, take me to the <a href="{{ url_for('login') }}">Login</a> page!</p>
+    <p>No TOTP client? We recommend and support use
+    of Google Authenticator (<a href=https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8>IOS</a> or
+    <a href=https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en>Android</a>) 
+    or 1Password, but any standards-supporting client should work.</p>
+{% endblock %}

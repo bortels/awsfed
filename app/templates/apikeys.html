@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    {% if current_user.is_authenticated %}
+    <h2>Current Keys</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Secret</th>
+                <th scope="col">Role</th>
+                <th scope="col">Policy</th>
+                <td class="text-right"></td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key in apikeys %}
+            <tr>
+                <td>{{ key.name }}</td>
+                <td>
+                    <form>
+                        <input type=button value="Click for Token" 
+                            onClick="alert('{{ key.secret }}')">
+                    </form>
+                </td>
+                <td>{{ key.role }}</td>
+                <td><pre>{{ key.policy }}</pre></td>
+                <td class="text-right">
+                    <div>
+                        <form action="{{ url_for('delete_apikey') }}" method="post" class="pull-right">
+                            <input type="hidden" name="name" value="{{ key.name }}">
+                            <input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="Are you sure?" #} value="Delete">
+                        </form>
+                    </div>
+                    <div>
+                        <form action="{{ url_for('edit_apikey') }}" method="post" class="pull-right">
+                            <input type="hidden" name="name" value="{{ key.name }}">
+                            <input type="submit" class="btn btn-primary" value="Edit">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h2>New Key:</h2>
+    {{ wtf.quick_form(form) }}
+    {% else %}
+    <h1>Hello Stranger!</h1>
+    <p>Access to this site is restricted to authorized users. All access is logged.</p>
+    <p>Authorized Users, please <a href="{{ url_for('register') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a>.</p>
+    {% endif %}
+{% endblock %}

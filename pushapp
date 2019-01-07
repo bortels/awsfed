@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# We assume "fed" is the name of your awsfed server and is defined in your ssh config
+
+env=${1:-dev}
+echo Synching to $env
+
+rsync -avz --progress app fed:~/$env
+ssh fed "sudo ./bounce $env"
+
+echo "I will upload creds in 3 seconds"
+sleep 3
+./uploadto$env

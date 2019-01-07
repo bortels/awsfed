@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+        {{super()}}
+        <script>
+            var xmlHttp;
+            function srvTime(){
+                try {
+                    //FF, Opera, Safari, Chrome
+                    xmlHttp = new XMLHttpRequest();
+                }
+                catch (err1) {
+                    //IE
+                    try {
+                        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
+                    }
+                    catch (err2) {
+                        try {
+                            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+                        }
+                        catch (eerr3) {
+                            //AJAX not supported, use CPU time.
+                            alert("AJAX not supported");
+                        }
+                    }
+                }
+                xmlHttp.open('HEAD',window.location.href.toString(),false);
+                xmlHttp.setRequestHeader("Content-Type", "text/html");
+                xmlHttp.send('');
+                return xmlHttp.getResponseHeader("Date");
+            }
+
+            var st = srvTime();
+            var date = new Date(st);
+            console.log("server timestamp: " + date);
+            localtime = new Date();
+            console.log("client timestamp: " + localtime);
+            delta = Math.abs(localtime - date)/1000;
+            if (delta > 15) {
+                alert("Your system clock differs from the server by " + delta + " seconds; this may break MFA.")
+            }
+        </script>
+{% endblock %}
+
+{% block page_content %}
+    <h1>Login</h1>
+    {{ wtf.quick_form(form) }}
+
+{% endblock %}

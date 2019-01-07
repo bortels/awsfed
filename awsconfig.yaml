@@ -1,0 +1,62 @@
+# This is a sample config. It should be obvious it won't work. Fill in your own values.
+# Note we choose yaml because it is readable and allows comments. The server actually wants
+# JSON, and the upload helper will convert the format. Making the server accept YAML directly
+# is a future low-priority improvement. 
+#
+# Each account here corresponds to a real AWS account. These accounts must be a *superset* of the
+# permissions you intend to grant, and include STS (See the sample policy documents). Note that the
+# resulting federated logins will NOT have the same STS rights - they are not inheritable. Note also
+# this means the credentials used below must be actual real IAM credentials, not a temporary login or
+# a cross-account assumed role, as those cannot have STS rights themselves. 
+#
+# It should go without saying that a file full of plaintext admin logins is something you don't want
+# getting out. Protect it well - we use an encrypted keybase git. There will at some point be a credential
+# rotator that will stir these up on demand, that I suggest is run fairly frequently (maybe daily) - the
+# creation of this rotator is a high priority task.
+accounts:
+  poweruser:
+    description: poweruser access
+    id: AQ........................XD
+    secret: ZBx......................LKW
+  administrator:
+    description: administrator access
+    id: AKI.............NQ
+    secret: /N7...........................ZIE
+  # accounts starting with "ssh-" are treated differently. They never give a link to a console.
+  # Instead, on login they add the user's source IP to the security groups listed. The intent
+  # here is to do things like update whitelists for protected access to things like ssh.
+  ssh-prod:
+    description: Update SG for bastion in prod
+    id: AD.......................Xh
+    secret: 4kO..........................XN
+    security_groups:
+    - region_name: us-east-1
+      sgid: sg-0cxxxxxxxxxxxxxx26
+    - region_name: us-west-2
+      sgid: sg-01xxxxxxxxxxxxxx86
+# apikeys is currently a stub for a future feature.
+apikeys: {}
+# list of users and the roles they can assume.
+users:
+  julie:
+  - dev
+  tom:
+  - admin
+  - fedadmin
+  scott:
+  - ssh-only
+# roles are just groups of related AWS accounts to be assigned to a user.
+roles:
+  dev:
+  - poweruser
+  - ssh-prod
+  admin:
+  - admin
+  - ssh-prod
+  fedadmin: []
+  ssh-only:
+  - ssh-prod
+# This is a shared secret. When the server is first started with no config, it will take any credentials
+# upload. After that, following credential uploads must match this secret. This should be set to a longish
+# text blob with no inherent meaning.
+secret: SEKRITPASSWORTHATSHOULDBEABIGRANDOMBLOBYESYOUSHOULDCHANGETHIS

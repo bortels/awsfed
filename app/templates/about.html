@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {% if current_user.is_authenticated %}
+    <h1>About AWSFed</h1>
+    <p>AWSFed is a Federated Access server used to connect to the AWS Console.</p>
+    <p>It is open source and available at https://github.com/bortels/awsfed</p>
+    </ul>
+    {% else %}
+    <h1>Hello Stranger!</h1>
+    <p>Access to this site is restricted to authorized users. All access is logged.</p>
+    <p>Authorized Users, please <a href="{{ url_for('register') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a>.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>Users</h1>
+    <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Login</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Roles</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.fullname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% for role in awsconfig['users'].get(user.username, []) %}
+                        <span class="badge badge-secondary">{{ role }}</span>
+                        {% endfor %}
+                    </td>
+                    <td class="text-right">
+                        <div class="row">
+                            <form action="{{ url_for('delete_user') }}" method="post" class="pull-right">
+                                <input type="hidden" name="userid" value="{{ user.username }}">
+                                <input type="submit" class="btn btn-danger" data-toggle="confirmation" {# data-title="Are you sure?" #} value="Delete">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}

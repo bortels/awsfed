@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Helper script to rebuild the fed container.
+# Note it kills the server so it can replace the Image.
+# You may want to alter this behavior to suit.
+
+env=${1:-dev}
+
+docker kill fed-$env
+docker rmi fed-$env
+docker build -t fed-$env .

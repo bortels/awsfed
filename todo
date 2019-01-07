@@ -1,0 +1,22 @@
+Here's things it might be useful to add. 
+
+- High Availability in general
+- moving to a distributed database (likely aurora serverless running mysql)
+- move to read-only container (reuires remote database replace sqlite)
+- proper frontend (TBD - Nginx or gunicorn or something. Researching)
+- magical credential management (auto-upload of creds on server restart)
+- settings tab (password change)
+- auto-blackhole of abusive incoming IPs (scanners and bots and such) based on 404 and other behaviors
+- automatic account key rotation
+- dark mode (or themes in general)
+- disable inactive users (> 90 days)
+- force MFA check as part of registration so we know it works
+- Drop external references to CDNs - they break on the corporate VPN (sigh)
+
+More wild future ideas:
+
+- script support with policy delegation (APIkeys) - tons of security concerns to address here.
+- maybe maybe moving role admin to online, and assigning owners to roles, to distribute the admin duties directly to those concerned.
+- credential editor (ie. not just a text editor)
+- a complete rewrite from the ground up
+- PWA front-end and server is pure API
